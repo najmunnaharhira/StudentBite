@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudentBite - Food & Grocery Delivery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#121212">
+  <link rel="icon" href="https://via.placeholder.com/512" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    body {
+      line-height: 1.5;
+      background-color: #121212;
+      color: #ffffff;
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 0.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-container h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ffd700;
+    }
+
+    .install-btn {
+      background-color: #ffd700;
+      color: #1a1a1a;
+      padding: 0.3rem 0.8rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 1rem;
+      display: none;
+    }
+
+    .install-btn:hover {
+      background-color: #e6c200;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ffffff;
+    }
+
+    /* Hero Section */
+    #home {
+      background: linear-gradient(135deg, #1a1a1a, #121212);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #333333;
+    }
+
+    #home h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    #home p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 0.5rem;
+      color: #cccccc;
+      font-weight: 400;
+    }
+
+    .btn {
+      background-color: #ffd700;
+      color: #1a1a1a;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-block;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-size: 0.9rem;
+      min-height: 44px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    /* Categories Section */
+    #categories {
+      padding: 1rem;
+      background-color: #121212;
+      text-align: center;
+    }
+
+    .category-scroll {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.5rem;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-card {
+      flex: 0 0 80px;
+      background-color: #1a1a1a;
+      padding: 0.5rem;
+      border-radius: 50%;
+      text-align: center;
+      border: 1px solid #333333;
+      transition: transform 0.3s;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeIn 0.5s forwards;
+      cursor: pointer;
+    }
+
+    .category-card:nth-child(2) { animation-delay: 0.2s; }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .category-card:hover {
+      transform: scale(1.1);
+    }
+
+    .category-card i {
+      font-size: 1.2rem;
+      color: #ffd700;
+      margin-bottom: 0.2rem;
+    }
+
+    .category-card h3 {
+      font-size: 0.6rem;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    /* Today's Special Section */
+    #specials {
+      padding: 1rem;
+      background-color: #121212;
+      text-align: center;
+    }
+
+    #specials h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .offer-scroll {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      scrollbar-width: none;
+    }
+
+    .offer-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .offer-card {
+      flex: 0 0 110px;
+      background-color: #1a1a1a;
+      padding: 0.75rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #333333;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.5s forwards;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .offer-card:nth-child(2) { animation-delay: 0.2s; }
+    .offer-card:nth-child(3) { animation-delay: 0.4s; }
+
+    .offer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(255, 215, 0, 0.2);
+    }
+
+    .offer-card i {
+      font-size: 1.5rem;
+      color: #ffd700;
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-card h3 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+
+    .offer-card .price {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .offer-card .action-btn {
+      background-color: #ffd700;
+      color: #1a1a1a;
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 500;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    .offer-card.stock-out {
+      background-color: #2a2a2a;
+      opacity: 0.7;
+    }
+
+    .offer-card .stock-out {
+      background-color: #666666;
+      color: #cccccc;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Products Section */
+    #menu {
+      padding: 1rem;
+      background-color: #121212;
+    }
+
+    #menu h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .menu-card {
+      flex: 0 0 110px;
+      background-color: #1a1a1a;
+      padding: 0.75rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #333333;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.5s forwards;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .menu-card:nth-child(2) { animation-delay: 0.2s; }
+    .menu-card:nth-child(3) { animation-delay: 0.4s; }
+    .menu-card:nth-child(4) { animation-delay: 0.6s; }
+    .menu-card:nth-child(5) { animation-delay: 0.8s; }
+    .menu-card:nth-child(6) { animation-delay: 1.0s; }
+    .menu-card:nth-child(7) { animation-delay: 1.2s; }
+    .menu-card:nth-child(8) { animation-delay: 1.4s; }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(255, 215, 0, 0.2);
+    }
+
+    .menu-card.stock-out {
+      background-color: #2a2a2a;
+      opacity: 0.7;
+    }
+
+    .menu-card i {
+      font-size: 1.5rem;
+      color: #ffd700;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-card h3 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+
+    .menu-card .price {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+
+    .menu-card .year {
+      color: #cccccc;
+      font-weight: 400;
+      font-size: 0.7rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .menu-card .action-btn {
+      background-color: #ffd700;
+      color: #1a1a1a;
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 500;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    .menu-card .action-btn:hover {
+      background-color: #e6c200;
+    }
+
+    .menu-card .stock-out {
+      background-color: #666666;
+      color: #cccccc;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Catering Section */
+    #catering {
+      padding: 1rem;
+      background-color: #121212;
+      text-align: center;
+    }
+
+    #catering h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    #catering p {
+      font-size: 0.9rem;
+      max-width: 600px;
+      margin: 0 auto 0.5rem;
+      color: #cccccc;
+      font-weight: 400;
+    }
+
+    #catering ul {
+      list-style: none;
+      margin-bottom: 0.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    #catering ul li {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+      position: relative;
+      padding-left: 1.2rem;
+      color: #cccccc;
+      font-weight: 400;
+    }
+
+    #catering ul li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: #ffd700;
+    }
+
+    /* Complain Box Section */
+    #complain {
+      padding: 1rem;
+      background-color: #121212;
+    }
+
+    #complain h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .complain-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #1a1a1a;
+      padding: 0.75rem;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .complain-form input,
+    .complain-form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #333333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .complain-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 0.5rem;
+      text-align: center;
+      border-top: 1px solid #333333;
+    }
+
+    footer p {
+      margin-bottom: 0.3rem;
+      color: #cccccc;
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+
+    .social-links a {
+      color: #ffffff;
+      margin: 0 0.5rem;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #ffd700;
+    }
+
+    /* Modals */
+    .order-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .order-modal-content {
+      background-color: #1a1a1a;
+      padding: 0.75rem;
+      border-radius: 12px;
+      max-width: 90%;
+      width: 320px;
+      text-align: center;
+      border: 1px solid #333333;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .order-modal-content h3 {
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .order-modal-content input,
+    .order-modal-content textarea,
+    .order-modal-content select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #333333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .order-modal-content textarea {
+      min-height: 80px;
+    }
+
+    .order-modal-content .btn {
+      background-color: #ffd700;
+      color: #1a1a1a;
+      min-height: 44px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ffffff;
+    }
+
+    /* Chat Button */
+    .chat-btn {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background-color: #ffd700;
+      color: #1a1a1a;
+      padding: 0.75rem;
+      border-radius: 50%;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .chat-btn i {
+      font-size: 1.2rem;
+    }
+
+    .chat-btn:hover {
+      background-color: #e6c200;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        justify-content: space-between;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100%;
+        background-color: #1a1a1a;
+        padding: 0.3rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+      }
+
+      .install-btn {
+        margin: 0.3rem 0;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      #home h2, #specials h2, #menu h2, #catering h2, #complain h2 {
+        font-size: 1.3rem;
+      }
+
+      #home p, #catering p {
+        font-size: 0.9rem;
+      }
+
+      .offer-scroll {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 0.5rem;
+        scrollbar-width: none;
+      }
+
+      .offer-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .offer-card {
+        flex: 0 0 calc(33.33% - 0.33rem);
+        max-width: calc(33.33% - 0.33rem);
+        padding: 0.5rem;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        justify-content: center;
+        overflow-x: hidden;
+      }
+
+      .menu-card {
+        max-width: calc(33.33% - 0.33rem);
+        padding: 0.5rem;
+      }
+
+      .offer-card i, .menu-card i {
+        font-size: 1.2rem;
+      }
+
+      .offer-card h3, .menu-card h3 {
+        font-size: 0.8rem;
+      }
+
+      .offer-card .price, .menu-card .price {
+        font-size: 0.7rem;
+      }
+
+      .offer-card .year, .menu-card .year {
+        font-size: 0.6rem;
+      }
+
+      .offer-card .action-btn, .menu-card .action-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.6rem;
+        min-height: 28px;
+      }
+
+      .category-card {
+        flex: 0 0 60px;
+        padding: 0.3rem;
+      }
+
+      .category-card i {
+        font-size: 1rem;
+      }
+
+      .category-card h3 {
+        font-size: 0.5rem;
+      }
+
+      .btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-container">
+      <h1>StudentBite</h1>
+      <div class="hamburger" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#specials">Today's Special</a>
+        <a href="#menu">Products</a>
+        <a href="#catering">তিন বেলা খাবার</a>
+        <a href="#complain">Complain Box</a>
+        <div class="install-btn" id="installBtn">Install</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home">
+    <h2>Food & Grocery for Students</h2>
+    <p>Order all day, get delivery after 7 PM. Enjoy Morog Polao, Chicken Biryani, or join our daily catering!</p>
+    <a href="#specials" class="btn">Order Now</a>
+  </section>
+
+  <!-- Categories Section -->
+  <section id="categories">
+    <div class="category-scroll">
+      <div class="category-card" onclick="openOrderModal('Meals')">
+        <i class="fa fa-utensils"></i>
+        <h3>Meals</h3>
+      </div>
+      <div class="category-card" onclick="openOrderModal('Groceries')">
+        <i class="fa fa-shopping-basket"></i>
+        <h3>Groceries</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Today's Special Section -->
+  <section id="specials">
+    <h2>Today's Special</h2>
+    <div class="offer-scroll">
+      <div class="offer-card">
+        <i class="fa fa-drumstick-bite"></i>
+        <h3>Morog Polao</h3>
+        <div class="price">৳300</div>
+        <a href="#" class="action-btn" onclick="openOrderModal('Morog Polao', 300)">Order Now</a>
+      </div>
+      <div class="offer-card">
+        <i class="fa fa-utensils"></i>
+        <h3>Chicken Biryani</h3>
+        <div class="price">৳350</div>
+        <a href="#" class="action-btn" onclick="openOrderModal('Chicken Biryani', 350)">Order Now</a>
+      </div>
+      <div class="offer-card stock-out">
+        <i class="fa fa-pizza-slice"></i>
+        <h3>Margherita Pizza</h3>
+        <div class="price">Stock Out</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="menu">
+    <h2>Our Products</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <i class="fa fa-drumstick-bite"></i>
+        <h3>Morog Polao</h3>
+        <div class="price">৳300</div>
+        <div class="year">2023</div>
+        <a href="#" class="action-btn" onclick="openOrderModal('Morog Polao', 300)">Order Now</a>
+      </div>
+      <div class="menu-card">
+        <i class="fa fa-utensils"></i>
+        <h3>Chicken Biryani</h3>
+        <div class="price">৳350</div>
+        <div class="year">2024</div>
+        <a href="#" class="action-btn" onclick="openOrderModal('Chicken Biryani', 350)">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-pizza-slice"></i>
+        <h3>Margherita Pizza</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-hamburger"></i>
+        <h3>Cheeseburger</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-drumstick-bite"></i>
+        <h3>Fried Chicken</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-spaghetti"></i>
+        <h3>Spaghetti Bolognese</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-leaf"></i>
+        <h3>Caesar Salad</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-ice-cream"></i>
+        <h3>Chocolate Sundae</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Rice (1kg)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Flour (1kg)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Cooking Oil (1L)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Sugar (1kg)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Lentils (1kg)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+      <div class="menu-card stock-out">
+        <i class="fa fa-box"></i>
+        <h3>Salt (1kg)</h3>
+        <div class="price">Stock Out</div>
+        <div class="year">2022</div>
+        <a href="#" class="action-btn stock-out">Order Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catering Section -->
+  <section id="catering">
+    <h2>তিন বেলা খাবার</h2>
+    <p>Perfect for students! Get breakfast, lunch, and dinner delivered daily after 7 PM with our monthly package.</p>
+    <ul>
+      <li>Three meals a day: Breakfast, Lunch, Dinner</li>
+      <li>Features Morog Polao and Chicken Biryani</li>
+      <li>Monthly package: ৳9000</li>
+      <li>Delivery after 7 PM daily</li>
+    </ul>
+    <a href="#" class="btn" onclick="openCateringModal()">Join Now</a>
+  </section>
+
+  <!-- Complain Box Section -->
+  <section id="complain">
+    <h2>Complain Box</h2>
+    <div class="complain-form">
+      <input type="text" id="complainName" placeholder="Your Name" required>
+      <input type="email" id="complainEmail" placeholder="Your Email" required>
+      <textarea id="complainDetails" placeholder="Your Complaint" required></textarea>
+      <button class="btn" onclick="submitComplaint()">Submit Complaint</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Contact: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4adaaa2ab84b7b0b1a0a1aab0a6adb0a1eabcbdbe">[email&#160;protected]</a> | Phone: +880123456789</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+  <!-- Chat Button -->
+  <div class="chat-btn" onclick="document.getElementById('complain').scrollIntoView()">
+    <i class="fa fa-comments"></i>
+  </div>
+
+  <!-- Order Modal -->
+  <div class="order-modal" id="orderModal">
+    <div class="order-modal-content">
+      <span class="close-btn" onclick="closeModal('orderModal')">×</span>
+      <h3 id="orderTitle">Order Form</h3>
+      <input type="text" placeholder="Your Name" id="orderName" required>
+      <input type="email" placeholder="Your Email" id="orderEmail" required>
+      <input type="text" placeholder="Delivery Address" id="orderAddress" required>
+      <input type="text" placeholder="Payment Method (e.g., Bkash)" id="paymentMethod" required>
+      <button class="btn" onclick="submitOrder()">Submit Order</button>
+    </div>
+  </div>
+
+  <!-- Catering Modal -->
+  <div class="order-modal" id="cateringModal">
+    <div class="order-modal-content">
+      <span class="close-btn" onclick="closeModal('cateringModal')">×</span>
+      <h3>Join তিন বেলা খাবার</h3>
+      <input type="text" placeholder="Your Name" id="cateringName" required>
+      <input type="email" placeholder="Your Email" id="cateringEmail" required>
+      <input type="text" placeholder="Delivery Address" id="cateringAddress" required>
+      <input type="text" placeholder="Payment Method (e.g., Bkash)" id="cateringPayment" required>
+      <textarea placeholder="Any Special Requirements" id="cateringRequirements"></textarea>
+      <button class="btn" onclick="submitCatering()">Join</button>
+    </div>
+  </div>
+
+  <!-- Manifest JSON -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="application/json" id="manifest">
+    {
+      "name": "StudentBite",
+      "short_name": "StudentBite",
+      "description": "Food and Grocery Delivery for Students",
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#121212",
+      "theme_color": "#ffd700",
+      "icons": [
+        {
+          "src": "https://via.placeholder.com/512",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ]
+    }
+  </script>
+
+  <!-- Service Worker -->
+  <script id="service-worker">
+    self.addEventListener('install', (event) => {
+      event.waitUntil(
+        caches.open('studentbite-cache-v1').then((cache) => {
+          return cache.addAll([
+            '/',
+            '/index.html',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+          ]);
+        })
+      );
+    });
+
+    self.addEventListener('fetch', (event) => {
+      event.respondWith(
+        caches.match(event.request).then((response) => {
+          return response || fetch(event.request);
+        })
+      );
+    });
+  </script>
+
+  <script>
+    // Inject Manifest
+    const manifestData = document.getElementById('manifest').textContent;
+    const manifestBlob = new Blob([manifestData], { type: 'application/json' });
+    const manifestURL = URL.createObjectURL(manifestBlob);
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = manifestURL;
+    document.head.appendChild(link);
+
+    // Register Service Worker
+    const swCode = document.getElementById('service-worker').textContent;
+    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+    const swURL = URL.createObjectURL(swBlob);
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(swURL)
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+
+    // PWA Install Prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+      }
+    });
+
+    // Menu Toggle
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    }
+
+    // Modal Functions
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Order Modal Functions
+    let currentOrder = '';
+    let currentPrice = 0;
+
+    function openOrderModal(title, price = 0) {
+      if (title !== 'Morog Polao' && title !== 'Chicken Biryani') {
+        alert('Sorry, only Morog Polao and Chicken Biryani are available.');
+        return;
+      }
+      currentOrder = title;
+      currentPrice = price;
+      document.getElementById('orderTitle').textContent = `Order ${title}`;
+      openModal('orderModal');
+    }
+
+    function submitOrder() {
+      const name = document.getElementById('orderName').value;
+      const email = document.getElementById('orderEmail').value;
+      const address = document.getElementById('orderAddress').value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
+
+      if (!name || !email || !address || !paymentMethod) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please provide a valid email address.');
+        return;
+      }
+
+      const message = `New Order: ${currentOrder}\nName: ${name}\nEmail: ${email}\nAddress: ${address}\nPayment Method: ${paymentMethod}\nTotal: ৳${currentPrice}\nNote: Delivery after 7 PM`;
+      const whatsappUrl = `https://wa.me/+880123456789?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      closeModal('orderModal');
+    }
+
+    // Catering Modal Functions
+    function openCateringModal() {
+      openModal('cateringModal');
+    }
+
+    function submitCatering() {
+      const name = document.getElementById('cateringName').value;
+      const email = document.getElementById('cateringEmail').value;
+      const address = document.getElementById('cateringAddress').value;
+      const paymentMethod = document.getElementById('cateringPayment').value;
+      const requirements = document.getElementById('cateringRequirements').value;
+
+      if (!name || !email || !address || !paymentMethod) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please provide a valid email address.');
+        return;
+      }
+
+      const message = `তিন বেলা খাবার Subscription Request\nName: ${name}\nEmail: ${email}\nAddress: ${address}\nPayment Method: ${paymentMethod}\nRequirements: ${requirements || 'None'}\nPackage: Monthly (৳9000)\nNote: Delivery after 7 PM`;
+      const whatsappUrl = `https://wa.me/+880123456789?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      closeModal('cateringModal');
+    }
+
+    // Complain Box Function
+    function submitComplaint() {
+      const name = document.getElementById('complainName').value;
+      const email = document.getElementById('complainEmail').value;
+      const details = document.getElementById('complainDetails').value;
+
+      if (!name || !email || !details) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please provide a valid email address.');
+        return;
+      }
+
+      const message = `New Complaint\nName: ${name}\nEmail: ${email}\nComplaint: ${details}`;
+      const whatsappUrl = `https://wa.me/+880123456789?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      document.getElementById('complainName').value = '';
+      document.getElementById('complainEmail').value = '';
+      document.getElementById('complainDetails').value = '';
+    }
+  </script>
+</body>
+</html>
